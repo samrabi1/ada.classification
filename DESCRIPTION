@@ -3,16 +3,14 @@ Type: Package
 Title: Classification Methods: K-means and Random Forests
 Version: 0.1.0
 Authors@R: 
-  c(person(given = "First",
-           family = "Last",
+  c(person(given = "Samantha",
+           family = "Rabinowitz",
            role = c("aut", "cre"),
-           email = "samrabi@utexas.edu",
-           comment = c(ORCID = "YOUR-ORCID-ID")),
-    person(given = "First",
-           family = "Last",
+           email = "samrabi@utexas.edu"),
+    person(given = "John Duncan",
+           family = "Hurt",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           email = "hurt.john@utexas.edu"))
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
