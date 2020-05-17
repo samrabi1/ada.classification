@@ -16,7 +16,7 @@
 
 rF_testing <- function(dat, s, x, model) {
 
-  train <- dat %>% dplyr::sample_frac(s)
+  train <- dplyr::sample_frac(dat, s)
   test <- dplyr::anti_join(dat, train)
 
   random <- randomForest::randomForest(model, data=train)
