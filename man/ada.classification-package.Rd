@@ -6,8 +6,7 @@
 \alias{ada.classification-package}
 \title{ada.classification: Classification Methods: K-means and Random Forests}
 \description{
-More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+This package focuses on problems related to the classification of data into clusters or groups according to the characteristics of the data themselves. Toward this end, it contains functions for convenient implementation of k-means clustering and random forest decision trees with an example data set.
 }
 \author{
 \strong{Maintainer}: John Duncan Hurt \email{hurt.john@utexas.edu}
