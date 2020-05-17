@@ -11,10 +11,14 @@ Authors@R:
            family = "Hurt",
            role = c("aut", "cre"),
            email = "hurt.john@utexas.edu"))
-Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 Depends: R (>= 3.5.2)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    ggplot2,
+    stats,
+    randomForest,
+    dplyr
