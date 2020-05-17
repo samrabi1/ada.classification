@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: 
   c(person(given = "Samantha",
            family = "Rabinowitz",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "samrabi@utexas.edu"),
     person(given = "John Duncan",
            family = "Hurt",
@@ -22,3 +22,4 @@ Imports:
     stats,
     randomForest,
     dplyr
+RoxygenNote: 7.1.0
