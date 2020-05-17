@@ -33,7 +33,7 @@ kmeansPlus <- function(data, k, exclude = NULL, full.output = FALSE, plot = FALS
 
 # Creating the plot, with x and y axes according to variables named in the arguments `x` and `y` and with points colored according to their cluster
   Cluster <- factor(cluster)
-  output2 <- ggplot2::ggplot(data1, ggplot2::aes(x = .data[[x]], y = .data[[y]], color = Cluster)) + geom_point() + xlab(colnames(data[, x])) + ylab(colnames(data[, y]))
+  output2 <- ggplot2::ggplot(data1, ggplot2::aes(x = .data[[x]], y = .data[[y]], color = Cluster)) + ggplot2::geom_point() + ggplot2::xlab(colnames(data[, x])) + ggplot2::ylab(colnames(data[, y]))
 
 
 
