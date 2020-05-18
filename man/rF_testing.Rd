@@ -16,7 +16,7 @@ rF_testing(dat, s, x, model)
 \item{model}{written in the style of a regression, defines the classifying variable and the predictors the user wants to use to perform the test}
 }
 \description{
-This function allows one to perform random forest classification (see (\code{\link[randomForest]{randomForest}}) for more information regarding the function to perform this classification method) of varying models on a training and testing set of the original data, the size of which is defined by the user.
+This function allows one to perform random forest classification (see \code{\link[randomForest]{randomForest}} for more information regarding the function to perform this classification method) of varying models on a training and testing set of the original data, the size of which is defined by the user.
 }
 \examples{
 rF_testing(dat = iris, s = 0.5, x = Species,
