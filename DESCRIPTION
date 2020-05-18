@@ -12,7 +12,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "hurt.john@utexas.edu"))
 Description: This package focuses on problems related to the classification of data into clusters or groups according to the characteristics of the data themselves. Toward this end, it contains functions for convenient implementation of k-means clustering and random forest decision trees with an example data set.
-Depends: R (>= 3.2.2)
+Depends: R (>= 3.5)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
