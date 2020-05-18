@@ -1,6 +1,6 @@
 #' @title A random forest classifier training and testing function
 #'
-#' @description This function allows one to perform random forest classification (see (\code{\link[randomForest]{randomForest}}) for more information regarding the function to perform this classification method) of varying models on a training and testing set of the original data, the size of which is defined by the user.
+#' @description This function allows one to perform random forest classification (see \link[randomForest]{randomForest} for more information regarding the function to perform this classification method) of varying models on a training and testing set of the original data, the size of which is defined by the user.
 #'
 #' @param dat dataset to perform test on
 #' @param s proportion of dataset to be assigned to the 'training' dataset
