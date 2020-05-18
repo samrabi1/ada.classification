@@ -20,7 +20,8 @@ Imports:
     ggplot2,
     stats,
     randomForest,
-    dplyr
+    dplyr,
+    gridExtra
 RoxygenNote: 7.1.0
 Suggests: 
     knitr,
