@@ -12,7 +12,8 @@
 #' @export
 #'
 #' @examples
-#' rF_testing(dat = iris, s = 0.5, x = Species, model = Species ~ Petal.Length + Petal.Width + Sepal.Length)
+#' rF_testing(dat = iris, s = 0.5, x = Species,
+#' model = Species ~ Petal.Length + Petal.Width + Sepal.Length)
 
 rF_testing <- function(dat, s, x, model) {
 
