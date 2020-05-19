@@ -26,13 +26,13 @@ library(ada.classification)
 
 ##### The dataset used in the examples performed in this vignette was downloaded from the following link: https://www.kaggle.com/uciml/pima-indians-diabetes-database?select=diabetes.csv. The dataset includes varying information pertaining to potential diabetes diagnosis for individuals who are all female and over the age of 21 and of Pima Indian heritage. The dataset is designed to be used for machine learning purposes so it is of particularly good use in performing classification examples. The dataset contains health information for the following variables for 768 individuals:
 
-  - Pregnancies: the number of times an individual has been pregnant
-  - Glucose: the plasma glucose concentration after two hours in an oral glucose tolerance test (measured in milligram/deciliter)
-  - BloodPressure: the diastolic blood pressure of the individual (measured in mm Hg)
-  - SkinThickness: measured in mm, the tricep skin fold thickness
-  - BMI: body mass index
+  - Pregnancies: the number of times the patient has been pregnant
+  - Glucose: the plasma glucose concentration measured for the patient after two hours in an oral glucose tolerance test (milligram/deciliter)
+  - BloodPressure: the diastolic blood pressure of the patient (mm Hg)
+  - SkinThickness: tricep skin fold thickness measured for the patient (mm)
+  - BMI: Body Mass Index of patient (weight in kg/(height in m)^2)
   - DiabetesPedigreeFunction: this function determines a score that indicates the likelihood one will have diabetes based on who in their family history was diagnosed with diabetes
-  - Age: the individual’s age
+  - Age: age of the patient (years)
   - Insulin: the measured insulin level of the individual
   - Outcome: assigns either a “0” (is not diagnosed with diabetes) or a “1” (is diagnosed with diabetes) to each individual 
 
@@ -100,12 +100,12 @@ gridExtra::grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 ```{r}
 # Viewing the original dataset. We exclude the first two columns just so that we can see the last few columns when it prints.
-diabetes[, 3:ncol(diabetes)]
+diabetes[, 4:ncol(diabetes)]
 
 
 # Running a simple implementation of kmeansPlus and viewing the result
 result <- kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, plot = FALSE)
-result[, 3:ncol(result)]
+result[, 4:ncol(result)]
 ```
 
 

@@ -8,15 +8,15 @@
 #'
 #' @format A data frame with 768 rows and 9 columns:
 #' \describe{
-#' \item{Pregnancies}{number of pregnancies had by patient}
-#' \item{Glucose}{glucose levels measured for patient}
-#' \item{BloodPressure}{blood pressure measured for patient}
-#' \item{SkinThickness}{skin thickness of patient}
-#' \item{Insulin}{insulin levels measured for patient}
-#' \item{BMI}{Body Mass Index of patient}
-#' \item{DiabetesPedigreeFunction}{value assigned based on family history of diabetes}
-#' \item{Age}{age of patient}
-#' \item{Outcome}{binary indicating diabetes diagnosis: 1 for yes and 0 for no}
+#' \item{Pregnancies}{the number of times the patient has been pregnant}
+#' \item{Glucose}{the plasma glucose concentration measured for the patient after two hours in an oral glucose tolerance test (milligram/deciliter)}
+#' \item{BloodPressure}{the diastolic blood pressure of the patient (mm Hg)}
+#' \item{SkinThickness}{tricep skin fold thickness measured for the patient (mm)}
+#' \item{Insulin}{2-Hour serum insulin level measured for the patient (mu U/ml)}
+#' \item{BMI}{Body Mass Index of patient (weight in kg/(height in m)^2)}
+#' \item{DiabetesPedigreeFunction}{score assigned based on family history of diabetes}
+#' \item{Age}{age of the patient (years)}
+#' \item{Outcome}{binary indicating diabetes diagnosis for patient: 1 for yes and 0 for no}
 #' }
 #'
 #' @source \url{https://www.kaggle.com/uciml/pima-indians-diabetes-database?select=diabetes.csv}
