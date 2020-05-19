@@ -1,0 +1,23 @@
+#' Pima Indians Diabetes Database
+#'
+#' A dataset extracted from the National Institute of Diabetes and Digestive
+#' and Kidney Diseases. The dataset contains a number of medically
+#' relevant variables. It was created specifically (via extraction from a larger database)
+#' to allow users to experiment with methods to predict the occurence of diabetes
+#' in the patients. More information can be found in the URL provided below.
+#'
+#' @format A data frame with 768 rows and 9 columns:
+#' \describe{
+#' \item{Pregnancies}{number of pregnancies had by patient}
+#' \item{Glucose}{glucose levels measured for patient}
+#' \item{BloodPressure}{blood pressure measured for patient}
+#' \item{SkinThickness}{skin thickness of patient}
+#' \item{Insulin}{insulin levels measured for patient}
+#' \item{BMI}{Body Mass Index of patient}
+#' \item{DiabetesPedigreeFunction}{value assigned based on family history of diabetes}
+#' \item{Age}{age of patient}
+#' \item{Outcome}{binary indicating diabetes diagnosis: 1 for yes and 0 for no}
+#' }
+#'
+#' @source \url{https://www.kaggle.com/uciml/pima-indians-diabetes-database?select=diabetes.csv}
+"diabetes"

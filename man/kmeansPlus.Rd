@@ -23,7 +23,7 @@ kmeansPlus(
 
 \item{k}{Either the desired number of clusters, or a set of initial (distinct) cluster centers. This is equivalent to the 'centers' argument from kmeans().}
 
-\item{exclude}{A vector, either numeric or character, indicating either indices or colnames of variables in 'data' that the user wishes to exclude. The excluded variable will not be removed from the tibble printed in the final output, but it will be excluded from all clustering and vizualisation procedures.}
+\item{exclude}{A vector, either numeric or character, indicating either indices or colnames of variables in 'data' that the user wishes to exclude. The excluded variable will not be removed from the tibble printed in the final output (when full.output and plot are set to FALSE), but it will be excluded from all clustering and vizualisation procedures.}
 
 \item{full.output}{A logical vector indicating whether the output of kmeansPlus() should include the full output of kmeans().}
 
