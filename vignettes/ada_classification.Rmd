@@ -22,12 +22,26 @@ library(ada.classification)
 
 ##### Put simply, classification seeks to separate data into clusters or groups that reflect something meaningful about the data themselves. A wide variety of methods and procedures fall under the umbrella of classification. This package provides an introduction to the broader topic of data classification by facilitating the implementation of two specific classification procedures, k-means and random forests. This vignette introduces the user to these two procedures and explains how they are implemented within the context of this package and its functions.
 
+## **diabetes** dataset
+
+##### The dataset used in the examples performed in this vignette was downloaded from the following link: https://www.kaggle.com/uciml/pima-indians-diabetes-database?select=diabetes.csv. The dataset includes varying information pertaining to potential diabetes diagnosis for individuals who are all female and over the age of 21 and of Pima Indian heritage. The dataset is designed to be used for machine learning purposes so it is of particularly good use in performing classification examples. The dataset contains health information for the following variables for 768 individuals:
+
+  - Pregnancies: the number of times an individual has been pregnant
+  - Glucose: the plasma glucose concentration after two hours in an oral glucose tolerance test (measured in milligram/deciliter)
+  - BloodPressure: the diastolic blood pressure of the individual (measured in mm Hg)
+  - SkinThickness: measured in mm, the tricep skin fold thickness
+  - BMI: body mass index
+  - DiabetesPedigreeFunction: this function determines a score that indicates the likelihood one will have diabetes based on who in their family history was diagnosed with diabetes
+  - Age: the individual’s age
+  - Insulin: the measured insulin level of the individual
+  - Outcome: assigns either a “0” (is not diagnosed with diabetes) or a “1” (is diagnosed with diabetes) to each individual 
+
 
 ## </br > k-means classification and the kmeansPlus() function
 
 ##### K-means is a classification procedure designed to separate data into a specified number of clusters or groups such that differences between members of each group are minimized. In this context, a number of centers are randomly chosen (or specifically assigned, depending on what is passed to the 'centers' argument of the function) and clusters are formed by minimizing the sum of squares between data points and their nearest center. This process is iterated (with the number of iterations set by 'iter.max'), and the best fitting clusters are assigned. Looking at the within-cluster sum of squares as a proportion of the the total sum of squares for all data points can provide a measure of how distinct the resultant clusters are. The kmeansPlus() function seeks to aid users in implementing this k-means procedure and interpreting its results.
 
-##### </br > Below we explore k-means clustering using the kmeansPlus() function on the 'diabetes' dataset. when 'plot' is set to FALSE, the output is identical to what one would obtain by running stats::kmeans(). The only major difference is the 'exclude' argument, which allows the user to name variables in the dataset to be excluded from the k-means procedure. In this case we set k = 2 and exclude the 'Outcome' variable. This produces two clusters, which account for all variables except 'Outcome', which is a variable indicating whether or not the patient was diagnosed with diabetes.
+##### </br > Below we explore k-means clustering using the kmeansPlus() function on the 'diabetes' dataset. When 'plot' is set to FALSE, the output is identical to what one would obtain by running stats::kmeans(). The only major difference is the 'exclude' argument, which allows the user to name variables in the dataset to be excluded from the k-means procedure. In this case we set k = 2 and exclude the 'Outcome' variable. This produces two clusters, which account for all variables except 'Outcome', which is a variable indicating whether or not the patient was diagnosed with diabetes.
 
 ```{r}
 
@@ -95,10 +109,65 @@ result[, 3:ncol(result)]
 ```
 
 
+## </br > random forests classification and the rF_testing() function
 
+##### There may already be a classifying variable included in a dataset (like the 'species' variable in the widely used iris dataset or the 'Outcome' variable in the diabetes dataset included in this package). The question one may then ask is how well do the other variables measured in the data predict the classification of an individual observation into one of the groups featured in this variable. This question can be in part answered by the use of another kind of classifying method called Random Forests.
 
+##### Random Forests is based around the ideas of the more simple decision tree model. A decision tree works to classify an observation into a category in a stepwise manner where the value of one variable leads to moving up a branch in one direction or another, over and over, a classification is landed upon. This however can cause what is called ‘overfitting’ as the model is very constrained to the set of data it is trained on and the set of variables guiding that model. While the model produced may seem to work well, further cross validation using other sets of data would potentially show a user some inefficiencies. 
 
+##### Random Forests takes the strengths of the decision tree model and expands on the method to reduce the effects of overfitting both from the side of the data and the variables included in the model. This is done in a couple different ways. First, the data is bootstrapped to allow the model to be tested on varying subsets of the same dataset numerous times to reduce the effect of overfitting to the same data on each tree. Additionally, each tree is fit to a different set of the original full set of variables. This way, all of the trees are being built around the same set of measurements but the different relationships between the variables are accounted for. The resulting model then takes into account all of the trees built (the *forest*) which should give a model that better classifies the observations as opposed to using a model built from a single dataset and single set of variables.
 
+##### This classification method can be performed in R using the function `randomForest` from the package by the same name. Specific information regarding this function can be found at the following link: https://www.rdocumentation.org/packages/randomForest/versions/4.6-14/topics/randomForest
 
+##### However, while random forest classification includes measures to reduce overfitting of a model, it is still a good practice to run the resulting model from this method on both a training and test (or validation) subset of a user’s original data. 
 
+The `rF_testing` function included in this package works to aid the user in a more simple use of the `randomForest` function trained to a defined subset of a dataset to produce a confusion matrix that includes the predicted classification from the function in terms of the original classification as defined by the indicated dataset. In other words, the result is a table that shows the user where the model made the correct and incorrect classifying decisions on the data. The function then uses the resulting model on the remaining subset of the data (the test/validation set) to produce another table that tells the user how well the classification worked with these additional observations. 
 
+##### From both of these tables, information such as the sensitivity (true positive rate), specificity (true negative rate), and many other values that describe the model can be calculated to determine the “goodness” of the model.
+
+##### It is first necessary to code the classifying variable as factors rather than characters or numeric values. This is necessary to run `randomForest` for classification. This can be performed by defining the variable within the `as.factor` function and overwriting the original version of the variable.
+
+```{r}
+d <- diabetes
+d$Outcome <- as.factor(d$Outcome)
+```
+
+##### The dataset is then ready to be used in the `rF_testing` function. To run this function, the user must provide:
+
+  - *dat*: a dataset 
+  - *s*: a proportion of that dataset to be used in the training dataset 
+  - *x*: the classifying variable in the dataset
+  - *model*: the model from which the randomForest function will use to predict classification of the data (written in the style of a regression, i.e., “Classifying Variable ~ Predictor 1 + Predictor 2”).
+  
+##### For this first example, the s value will be set to 0.75 and the model will be set to “Outcome ~ .”. This means that 75% of the dataset will be saved as the training dataset for running `randomForest`. The function will produce a model that will predict Outcome from all of the other variables (this is what the use of the period in the place of the predictor variable names means).
+
+```{r}
+set.seed(123)
+
+rF_diabetes <- rF_testing(dat = d, s = 0.75, x = Outcome, model = Outcome ~ .)
+rF_diabetes
+```
+
+##### In the output, the first confusion matrix listed describes the classifications for the training set by the `randomForest` model and the second uses the model built from the training set to predict the classifications of the test/validation set. Additionally, the first confusion matrix includes the *classification errors*, which describes the proportion of observations that were classified into the wrong category. So in other words, referring to the output above, the proportion of incorrectly classified negative observations was 0.148 and the proportion of incorrectly classified positive observations was 0.434. The better the model is at predicting the classification of the observations, the closer to zero these proportions will be. The model can potentially be improved by a few different methods, including altering the variables used as predictors in the model (see demonstration of this below) or changing the proportion of data that gets used as the training set.
+
+##### From these confusion matrices we can obtain information such as the accuracy, specificity, sensitivity, and others to further describe the model. These values can be calculated using the output of the `rF_testing` function as demonstrated below using the confusion matrix for the training dataset.
+
+```{r}
+(rF_diabetes[[1]][1,1]+rF_diabetes[[1]][2,2])/(rF_diabetes[[1]][1,1]+rF_diabetes[[1]][1,2]+rF_diabetes[[1]][2,1]+rF_diabetes[[1]][2,2]) #Accuracy (correct classifications/total observations)
+
+rF_diabetes[[1]][1,1]/(rF_diabetes[[1]][1,1]+rF_diabetes[[1]][1,2]) #specificity (true negative rate)
+
+rF_diabetes[[1]][2,2]/(rF_diabetes[[1]][2,1]+rF_diabetes[[1]][2,2]) #sensitivity (true positive rate)
+```
+
+##### The calculation of the accuracy can be particularly important in evaluating the strengths of a model as this value, here found to be 0.77, tells the user the proportion of observations that sorted correctly by the model. One could go on to perform additional methods or series of functions such as stepwise regression to determine the variables in the dataset that produce the best model to predict the classification of the observations in a dataset. The `rF_testing` function could then be returned to to obtain the output described above. The following example employs parameters identical to the ones used in the example above but with a reduced model including only 'Insulin', 'Glucose', and 'BMI' to predict 'Outcome'
+
+```{r}
+set.seed(123)
+rF_diabetes1 <- rF_testing(dat = d, s = 0.75, x = Outcome, model = Outcome ~ Insulin + Glucose + BMI)
+rF_diabetes1
+
+(rF_diabetes1[[1]][1,1]+rF_diabetes1[[1]][2,2])/(rF_diabetes1[[1]][1,1]+rF_diabetes1[[1]][1,2]+rF_diabetes1[[1]][2,1]+rF_diabetes1[[1]][2,2])
+```
+
+##### Finally, this reduced model provides an interesting output that shows the complexity of the 'randomForests' classification method. Here we see that one of the classification errors (negative) increases while another (positive) decreases and the overall accuracy of the model is somewhat reduced. In the case of classifying this dataset, additional steps (testing a great number of combination of variables) would be necessary to determine the best and most accurate model for predicting the 'Outcome' variable.
