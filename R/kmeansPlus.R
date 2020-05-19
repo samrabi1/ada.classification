@@ -16,7 +16,7 @@
 #' @examples
 #' kmeansPlus(data = iris, k = 3, exclude = "Species", full.output = TRUE, plot = TRUE, x = "Sepal.Length", y = "Sepal.Width")
 
-kmeansPlus <- function(data, k, exclude = NULL, full.output = FALSE, plot = FALSE, x = NULL, y = NULL, iter.max = 10, nstart = 1, algorithm = c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"), trace = FALSE)
+kmeansPlus <- function(data, k, exclude = NULL, full.output = TRUE, plot = TRUE, x = NULL, y = NULL, iter.max = 10, nstart = 1, algorithm = c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"), trace = FALSE)
 {
 
 # Coercing `data` to class tibble and removing any variables named in `exclude`
@@ -39,13 +39,13 @@ kmeansPlus <- function(data, k, exclude = NULL, full.output = FALSE, plot = FALS
 
 # Determining which outputs to print according to the arguments `full.output` and `plot`
 if (full.output == TRUE & plot == TRUE) {
-  final <- list(output0, output1, output2)} else {
+  final <- list(output0, output2)} else {
 
 if (full.output == TRUE & plot == FALSE) {
-  final <- list(output0, output1)} else {
+  final <- output0} else {
 
 if (full.output == FALSE & plot == TRUE) {
-  final <- list(output1, output2)} else{
+  final <- output2} else{
 
 if (full.output == FALSE & plot == FALSE) {
   final <- output1}
