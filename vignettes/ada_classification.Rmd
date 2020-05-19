@@ -18,12 +18,16 @@ knitr::opts_chunk$set(
 library(ada.classification)
 ```
 
-#### k-means classification and the kmeansPlus() function
+## Classification and the {ada.classification} package
 
-##### </br > K-means is a classification procedure designed to separate data into a specified number of clusters or groups such that differences between members of each group are minimized. In this context, a number of centers are randomly chosen (or specifically assigned, depending on what is passed to the 'centers' argument of the function) and clusters are formed by minimizing the sum of squares between data points and their nearest center. This process is iterated until the best fitting clusters have been assigned. Looking at the within-cluster sum of squares as a proportion of the the total sum of squares for all data points can provide a measure of how distinctive the resultant clusters are. The kmeansPlus() function seeks to aid users in implementing the k-means procedure and interpretting its results.
+##### Put simply, classification seeks to separate data into clusters or groups that reflect something meaningful about the data themselves. A wide variety of methods and procedures fall under the umbrella of classification. This package provides an introduction to the broader topic of data classification by facilitating the implementation of two specific classification procedures, k-means and random forests. This vignette introduces the user to these two procedures and explains how they are implemented within the context of this package and its functions.
 
 
-##### </br > Below we explore k-means clustering using the kmeansPlus() function on the 'diabetes' dataset. when 'plot' is set to FALSE, the output is identical to what one would obtain by running stats::kmeans(). The only major difference is the 'exclude' argument, which allows the user to name variables in the dataset to be excluded from the k-means procedure. In this case we set k = 2 and exclude the 'Outcome' variable. This produces two clusters, which account for all variables except the one indicating whether or not the patient was diagnosed with diabetes.
+## </br > k-means classification and the kmeansPlus() function
+
+##### K-means is a classification procedure designed to separate data into a specified number of clusters or groups such that differences between members of each group are minimized. In this context, a number of centers are randomly chosen (or specifically assigned, depending on what is passed to the 'centers' argument of the function) and clusters are formed by minimizing the sum of squares between data points and their nearest center. This process is iterated (with the number of iterations set by 'iter.max'), and the best fitting clusters are assigned. Looking at the within-cluster sum of squares as a proportion of the the total sum of squares for all data points can provide a measure of how distinct the resultant clusters are. The kmeansPlus() function seeks to aid users in implementing this k-means procedure and interpreting its results.
+
+##### </br > Below we explore k-means clustering using the kmeansPlus() function on the 'diabetes' dataset. when 'plot' is set to FALSE, the output is identical to what one would obtain by running stats::kmeans(). The only major difference is the 'exclude' argument, which allows the user to name variables in the dataset to be excluded from the k-means procedure. In this case we set k = 2 and exclude the 'Outcome' variable. This produces two clusters, which account for all variables except 'Outcome', which is a variable indicating whether or not the patient was diagnosed with diabetes.
 
 ```{r}
 
@@ -33,41 +37,50 @@ kmeansPlus(diabetes, 2, exclude = "Outcome", plot = FALSE)
 
 ```
 
-##### We can see from the value of 55.7% for between_SS / total_SS (sum of squares within groups / sum of squares of data points as a whole) that the clusters produced when k is set to 2 are not very distinct. That is, we were not able to minimize the extent of difference betweeen members of the same group as much as we would like. Below we run the function again, but this time leaving 'plot' set to the default value of TRUE. We now must specify an x and y variable to be plotted.
+##### We can see from the value of 55.7% for 'between_SS / total_SS' (sum of squares within groups / sum of squares of data points as a whole) that the clusters produced when k is set to 2 are not very distinct. That is, we were not able to minimize the extent of difference between members of the same group as much as we would like. Below we run the function again, but this time leaving 'plot' set to the default value of TRUE. We now must specify an x and y variable to be plotted. We can also set 'full.output' to FALSE, since we are running the k-means procedure with the same parameters and have no need to see the exact same output again.
 
-```{r}
+```{r fig.width=7, fig.asp=0.618, fig.align="center"}
 
-kmeansPlus(diabetes, 2, exclude = "Outcome", x = "Age", y = "BMI")
+kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, x = "Glucose", y = "BMI")
 
 ```
 
+##### The plot allows us to visualize the distinctness of the clusters assigned by our implementation of k-means, but only for the two variables provided as inputs to the 'x' and 'y' arguments. As we can see, there is a considerable degree of overlap between data points belonging to the two different clusters when it comes to the 'Glucose' and 'BMI' variables. Below we try out a few more combinations of variables.
 
-##### The output in the console remains the same, but there is now a plot as well. The plot allows us to vizualize the distinctiveness of the clusters assigned by our implementation of k-means, but only for the two variables provided as inputs to the 'x' and 'y' arguments. As we can see, the clusters assigned do not seem very meaningful for the intersection of Age and BMI. Below we try out a few more combinations of variables, this time setting 'full.output' to FALSE (since we are only interested in the plots, and have no need to see the same kmeans output each time we create one).
-
-```{r}
+```{r fig.width=7, fig.asp=0.618, fig.align="center"}
 
 p1 <- kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, x = "Glucose", y = "BMI")
-p2 <- kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, x = "BloodPressure", y = "Age")
-p3 <- kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, x = "Insulin", y = "SkinThickness")
-p4 <- kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, x = "Age", y = "Insulin")
+p2 <- kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, x = "Glucose", y = "BloodPressure")
+p3 <- kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, x = "Insulin", y = "BMI")
+p4 <- kmeansPlus(diabetes, 2, exclude = "Outcome", full.output = FALSE, x = "Insulin", y = "BloodPressure")
 
 gridExtra::grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 ```
 
-##### Based on this preliminary exploration of different combinations of variables, Inslulin is the only variable for which the clusters produced by our k-means procedure are distinctive. This is a meaningful finding given the nature of the dataset, although it is possible that this is simply a querk caused by the fact that the 'Insulin' variable seems to contain a large number of zero values. Regardless, this has demonstrated the use of simple scatterplots to aid in the interpretation of k-means outputs. We can conclude that 2 may not be a very effective k value, based on both the middling sum of squares ratio of 55.7% and on the plots, which only reflect distinctive groups in cases where the 'Insulin' variable is included on one of the axes.
+##### We can see that 'Insulin" is clearly the variable for which the clusters produced by our k-means procedure are most distinct. This is a meaningful finding given the nature of the dataset, although it is possible that this result is simply a quirk caused by the fact that the 'Insulin' variable contains a large number of zero values. Regardless, this has demonstrated the potential for simple scatter plots to aid in the interpretation of k-means outputs. We can conclude that 2 may not be a very effective k value, based on both the middling sum of squares ratio of 55.7% and on the plots, which only reflect distinct groups in cases where the 'Insulin' variable is included on one of the axes.
 
+##### </br > We can now set the 'k' argument to 3 instead of 2 to see how this changes the results. We will include a plot as above, but this time we are keeping 'full.output' set to TRUE, since the output of the k-means procedure will be different with the new k value.
 
-##### </br > We can now set the 'k' argument to 3 instead of 2 to see how this changes the results. We will find a much better sum of squares ratio of 74.9%, indicating that this may be a more effective value for k. The plots, however, will continue to reveal that 'Insulin' is the variable responsible for most of the distinctive clustering. This would agree with what is shown in the full k-means output, where the cluster means of the two (or three) clusters vary more dramatically for insulin than they do for the other variables.
+```{r fig.width=7, fig.asp=0.618, fig.align="center"}
 
-```{r}
-
-kmeansPlus(diabetes, 3, exclude = "Outcome", x = "BMI", y = "BloodPressure")
+kmeansPlus(diabetes, 3, exclude = "Outcome", x = "Glucose", y = "BMI")
 
 ```
 
+##### We now find a much better sum of squares ratio of 74.9%, indicating that 3 may be a more effective k value for minimizing the differences within clusters.
 
+##### </br > Again, we can now exclude the full output and compare multiple new plots. The plots will continue to reveal that 'Insulin' is the variable responsible for the most distinct clustering. This would agree with what is shown in the full k-means outputs, where the cluster means of the clusters vary more dramatically for insulin than they do for the other variables. (This is the case when k=2 as well as when k=3.)
 
+```{r fig.width=7, fig.asp=0.618, fig.align="center"}
+p1 <- kmeansPlus(diabetes, 3, exclude = "Outcome", full.output = FALSE, x = "Glucose", y = "BMI")
+p2 <- kmeansPlus(diabetes, 3, exclude = "Outcome", full.output = FALSE, x = "Glucose", y = "BloodPressure")
+p3 <- kmeansPlus(diabetes, 3, exclude = "Outcome", full.output = FALSE, x = "Insulin", y = "BMI")
+p4 <- kmeansPlus(diabetes, 3, exclude = "Outcome", full.output = FALSE, x = "Insulin", y = "BloodPressure")
+
+gridExtra::grid.arrange(p1, p2, p3, p4, nrow = 2)
+
+```
 
 #### </br > Finally, we see what happens when both 'full.output' and 'plot' are set to FALSE. The output is a tibble that is simply the original input dataset with a new column added, indicating the cluster to which each case was assigned. This is just a simple way of taking the cluster vector from the output of stats::kmeans() and adding it to the original dataset as a new column. This is mainly for when the user wants to perform subsequent operations using the groupings produced by k-means. This would allow one to, for example, observe whether there is meaningful correspondence between the clusters assigned when k=2 and the values in the 'Outcome' column, which also separate the cases into one of two classes (those who were diagnosed with diabetes and those who were not). Given that Insulin is the most influential variable in the classifications produced by k-means when k=2, it would be interesting to explore this question further (and the tibble produced below would be a good place to start!).
 
