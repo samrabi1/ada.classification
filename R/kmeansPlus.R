@@ -2,7 +2,7 @@
 #' @description A tool to aid in the implementation of conventional k means clustering, kmeansPlus() provides the normal functionality of stats::kmeans() with some modest additions. In short, it allows the user to quickly plot results from kmeans(), as well as add cluster identifiers to the input dataframe as a new variable.
 #' @param data A matrix or dataframe containing numeric data in tidy format. This is equivalent to the 'x' argument from kmeans().
 #' @param k Either the desired number of clusters, or a set of initial (distinct) cluster centers. This is equivalent to the 'centers' argument from kmeans().
-#' @param exclude A vector, either numeric or character, indicating either indices or colnames of variables in 'data' that the user wishes to exclude. The excluded variable will not be removed from the tibble printed in the final output, but it will be excluded from all clustering and vizualisation procedures.
+#' @param exclude A vector, either numeric or character, indicating either indices or colnames of variables in 'data' that the user wishes to exclude. The excluded variable will not be removed from the tibble printed in the final output (when full.output and plot are set to FALSE), but it will be excluded from all clustering and vizualisation procedures.
 #' @param full.output A logical vector indicating whether the output of kmeansPlus() should include the full output of kmeans().
 #' @param plot A logical vector indicating whether the output of kmeansPlus() should include a plot.
 #' @param x A string (character vector of length 1) containing the colname of a variable from `data` to be plotted on the x axis (if plot = TRUE).
