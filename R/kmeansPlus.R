@@ -14,7 +14,8 @@
 #' @keywords classification, k means
 #' @export
 #' @examples
-#' kmeansPlus(data = iris, k = 3, exclude = "Species", full.output = TRUE, plot = TRUE, x = "Sepal.Length", y = "Sepal.Width")
+#' kmeansPlus(data = iris, k = 3, exclude = "Species", full.output = TRUE, plot = TRUE,
+#' x = "Sepal.Length", y = "Sepal.Width")
 
 kmeansPlus <- function(data, k, exclude = NULL, full.output = TRUE, plot = TRUE, x = NULL, y = NULL, iter.max = 10, nstart = 1, algorithm = c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"), trace = FALSE)
 {

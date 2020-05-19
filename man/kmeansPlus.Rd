@@ -45,7 +45,8 @@ kmeansPlus(
 A tool to aid in the implementation of conventional k means clustering, kmeansPlus() provides the normal functionality of stats::kmeans() with some modest additions. In short, it allows the user to quickly plot results from kmeans(), as well as add cluster identifiers to the input dataframe as a new variable.
 }
 \examples{
-kmeansPlus(data = iris, k = 3, exclude = "Species", full.output = TRUE, plot = TRUE, x = "Sepal.Length", y = "Sepal.Width")
+kmeansPlus(data = iris, k = 3, exclude = "Species", full.output = TRUE, plot = TRUE,
+x = "Sepal.Length", y = "Sepal.Width")
 }
 \keyword{classification,}
 \keyword{k}
